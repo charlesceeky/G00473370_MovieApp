@@ -22,6 +22,14 @@ export class MovieService {
     return this.http.get(`${this.baseUrl}/movie/${id}/credits?api_key=${this.apiKey}`);
   }
 
+  getPersonDetails(id: string) {
+    return this.http.get(`${this.baseUrl}/person/${id}?api_key=${this.apiKey}`);
+  }
+
+  getPersonMovieCredits(id: string) {
+    return this.http.get(`${this.baseUrl}/person/${id}/movie_credits?api_key=${this.apiKey}`);
+  }
+
   constructor(private http: HttpClient) { }
   
 }

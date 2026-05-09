@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
@@ -9,12 +8,12 @@ import { RouterModule } from '@angular/router';
   templateUrl: './favourites.page.html',
   styleUrls: ['./favourites.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterModule]
+  imports: [IonicModule, CommonModule, RouterModule]
 })
 export class FavouritesPage {
   favouriteMovies: any[] = [];
 
-  constructor() { }
+  constructor() {}
 
   ionViewWillEnter() {
     this.loadFavourites();
@@ -24,4 +23,3 @@ export class FavouritesPage {
     this.favouriteMovies = JSON.parse(localStorage.getItem('favourites') || '[]');
   }
 }
-

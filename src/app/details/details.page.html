@@ -1,13 +1,42 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ person?.name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/favourites">
+        <ion-icon slot="icon-only" name="heart"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">details</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content *ngIf="person">
+  <div style="text-align: center; padding: 16px;">
+    <ion-avatar style="width: 150px; height: 150px; margin: 0 auto;">
+      <img *ngIf="person.profile_path" [src]="'https://image.tmdb.org/t/p/w500' + person.profile_path" />
+    </ion-avatar>
+    <h1>{{ person.name }}</h1>
+    <p *ngIf="person.birthday"><b>Born:</b> {{ person.birthday }}</p>
+    <p *ngIf="person.place_of_birth">{{ person.place_of_birth }}</p>
+  </div>
+
+  <div style="padding: 16px;">
+    <h3>Biography</h3>
+    <p>{{ person.biography || 'No biography available.' }}</p>
+  </div>
+
+  <h3 style="padding: 0 16px;">Known For</h3>
+  <ion-list>
+    <ion-item *ngFor="let movie of movies | slice:0:10" [routerLink]="['/movie-details', movie.id]">
+      <ion-thumbnail slot="start">
+        <img *ngIf="movie.poster_path" [src]="'https://image.tmdb.org/t/p/w200' + movie.poster_path" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ movie.title }}</h2>
+        <p>{{ movie.release_date | date:'yyyy' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
