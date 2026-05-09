@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ movie?.title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/favourites">
+        <ion-icon slot="icon-only" name="heart"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="movie">
+  <div style="padding: 16px;">
+    <p>{{ movie.overview }}</p>
+
+    <ion-button expand="block" (click)="toggleFavourite()" [color]="isFavourite ? 'primary' : 'primary'">
+      <ion-icon slot="start" name="heart"></ion-icon>
+      {{ isFavourite ? 'Remove From Favourites' : 'Add To Favourites' }}
+    </ion-button>
+  </div>
+
+  <h3 style="padding: 0 16px;">Cast</h3>
+  <ion-list>
+    <ion-item *ngFor="let actor of cast" [routerLink]="['/details', actor.id]">
+      <ion-thumbnail slot="start">
+        <img *ngIf="actor.profile_path" [src]="'https://image.tmdb.org/t/p/w200' + actor.profile_path" />
+        <div *ngIf="!actor.profile_path" style="width: 100%; height: 100%; background: #ccc; display: flex; align-items: center; justify-content: center;">No image</div>
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ actor.name }}</h2>
+        <p>{{ actor.character }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <h3 style="padding: 0 16px;">Crew</h3>
+  <ion-list>
+    <ion-item *ngFor="let member of crew" [routerLink]="['/details', member.id]">
+      <ion-thumbnail slot="start">
+        <img *ngIf="member.profile_path" [src]="'https://image.tmdb.org/t/p/w200' + member.profile_path" />
+        <div *ngIf="!member.profile_path" style="width: 100%; height: 100%; background: #ccc; display: flex; align-items: center; justify-content: center;">No image</div>
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ member.name }}</h2>
+        <p>{{ member.job }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
