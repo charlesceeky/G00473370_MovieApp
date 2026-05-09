@@ -15,9 +15,15 @@
 </ion-header>
 
 <ion-content *ngIf="movie">
-  <div style="padding: 16px; text-align: center;">
-    <p style="text-align: left;">{{ movie.overview }}</p>
+  
+  <div style="text-align: center; padding: 20px 16px 0;">
+    <img *ngIf="movie.poster_path" 
+         [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
+         style="max-height: 450px; border-radius: 12px; box-shadow: 0px 6px 15px rgba(0,0,0,0.4);" 
+         alt="{{ movie.title }} poster" />
+  </div>
 
+  <div style="padding: 16px; text-align: center;">
     <ion-button 
       shape="round" 
       [fill]="isFavourite ? 'solid' : 'outline'" 
@@ -26,6 +32,7 @@
       <ion-icon slot="start" [name]="isFavourite ? 'heart' : 'heart-outline'"></ion-icon>
       {{ isFavourite ? 'Remove From Favourites' : 'Add To Favourites' }}
     </ion-button>
+    <p style="text-align: left;">{{ movie.overview }}</p>
   </div>
 
   <ion-accordion-group expand="inset">
