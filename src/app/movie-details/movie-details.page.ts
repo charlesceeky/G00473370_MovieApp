@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MovieService } from '../service/movie';
+import { addIcons } from 'ionicons';
+import { heart, heartOutline, home } from 'ionicons/icons';
 
 @Component({
   selector: 'app-movie-details',
@@ -17,10 +19,15 @@ export class MovieDetailsPage implements OnInit {
   crew: any[] = [];
   isFavourite: boolean = false;
 
+  castLimit: number = 5; 
+  crewLimit: number = 5;
+
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService
-  ) {}
+  ) {
+    addIcons({ heart, heartOutline, home });
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -50,5 +57,14 @@ export class MovieDetailsPage implements OnInit {
     }
     localStorage.setItem('favourites', JSON.stringify(favs));
     this.isFavourite = !this.isFavourite;
+  }
+
+  toggleCastLimit() {
+    // If it's currently 5, show all. If it's showing all, revert to 5.
+    this.castLimit = this.castLimit === 5 ? this.cast.length : 5;
+  }
+
+  toggleCrewLimit() {
+    this.crewLimit = this.crewLimit === 5 ? this.crew.length : 5;
   }
 }

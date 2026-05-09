@@ -10,13 +10,14 @@
 </ion-header>
 
 <ion-content>
-  <ion-item lines="none">
-    <ion-label position="fixed">Search</ion-label>
-    <ion-input placeholder="Movie Name" [(ngModel)]="searchTerm"></ion-input>
-  </ion-item>
-  <ion-button expand="block" color="primary" (click)="onSearchChange({detail: {value: searchTerm}})">
-    SEARCH
-  </ion-button>
+  <ion-searchbar 
+    [(ngModel)]="searchTerm" 
+    (ionInput)="onSearchChange($event)" 
+    placeholder="Search everything..." 
+    shape="round" 
+    animated="true"
+    style="max-width: 600px; margin: 0 auto; padding: 15px 10px;">
+  </ion-searchbar>
 
   <h3 style="padding: 0 16px;">
     {{ searchTerm === '' ? "Today's Trending Movies" : searchTerm + " Movies" }}

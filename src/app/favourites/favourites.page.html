@@ -5,24 +5,36 @@
         <ion-icon slot="icon-only" name="home"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>My Favourites</ion-title>
+    <ion-title>
+      <ion-icon name="heart" color="danger" style="vertical-align: text-bottom; margin-right: 5px;"></ion-icon>
+      My Favourites
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div *ngIf="favouriteMovies.length === 0" style="text-align: center; padding-top: 50px;">
-    <ion-icon name="heart-outline" style="font-size: 64px; color: #ccc;"></ion-icon>
-    <p>You haven't saved any movies yet!</p>
-    <ion-button fill="clear" routerLink="/home">Browse Movies</ion-button>
-  </div>
+  @if (favouriteMovies.length === 0) {
+    <div style="text-align: center; padding-top: 50px;">
+      <ion-icon name="heart-outline" style="font-size: 64px; color: #ccc;"></ion-icon>
+      <p>You haven't saved any movies yet!</p>
+      <ion-button fill="clear" routerLink="/home">Browse Movies</ion-button>
+    </div>
+  }
 
-  <ion-card *ngFor="let movie of favouriteMovies" [routerLink]="['/movie-details', movie.id]">
-    <img *ngIf="movie.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" />
-    <ion-card-header>
-      <ion-card-title>{{ movie.title }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      {{ movie.overview | slice:0:150 }}...
-    </ion-card-content>
-  </ion-card>
+  @for (movie of favouriteMovies; track movie.id) {
+    <ion-card [routerLink]="['/movie-details', movie.id]">
+      @if (movie.poster_path) {
+        <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" />
+      }
+      <ion-card-header>
+        <ion-card-title>
+          {{ movie.title }}
+          <ion-icon name="heart" color="danger" style="float: right;"></ion-icon>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        {{ movie.overview | slice:0:150 }}...
+      </ion-card-content>
+    </ion-card>
+  }
 </ion-content>

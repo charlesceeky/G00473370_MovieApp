@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MovieService } from '../service/movie';
+import { addIcons } from 'ionicons';
+import { heart, heartOutline, home } from 'ionicons/icons';
 
 @Component({
   selector: 'app-details',
@@ -18,7 +20,9 @@ export class DetailsPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService
-  ) {}
+  ) {
+    addIcons({ heart, heartOutline, home });
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
