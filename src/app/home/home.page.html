@@ -3,7 +3,7 @@
     <ion-title>{{ studentNumber }}</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/favourites">
-        <ion-icon slot="icon-only" name="heart"></ion-icon>
+        <ion-icon slot="icon-only" name="heart" color="danger"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -20,13 +20,56 @@
   </ion-searchbar>
 
   <h3 style="padding: 0 16px;">
-    {{ searchTerm === '' ? "Today's Trending Movies" : searchTerm + " Movies" }}
+    {{ searchTerm === '' ? "Today's Trending Movies" : "Search Results for '" + searchTerm + "'" }}
   </h3>
 
-  <ion-card *ngFor="let movie of movies" [routerLink]="['/movie-details', movie.id]">
-    <img *ngIf="movie.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="Movie Poster" />
-    <ion-card-content>
-      {{ movie.overview }}
-    </ion-card-content>
-  </ion-card>
+  @if (searchTerm === '') {
+    <div style="display: flex; align-items: center; position: relative;">
+      
+      <ion-button fill="clear" (click)="scrollLeft()" style="position: absolute; left: 0; z-index: 10; --background: rgba(0,0,0,0.6); --border-radius: 50%; height: 50px; width: 50px;">
+        <ion-icon name="chevron-back" slot="icon-only" color="light"></ion-icon>
+      </ion-button>
+
+      <div #slider style="display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 15px; padding: 10px 20px; width: 100%; scrollbar-width: none;">
+        @for (movie of movies; track movie.id) {
+          <ion-card [routerLink]="['/movie-details', movie.id]" style="min-width: 200px; max-width: 200px; flex-shrink: 0; margin: 0; cursor: pointer;">
+            @if (movie.poster_path) {
+              <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" />
+            }
+            <ion-card-header style="padding: 10px;">
+              <ion-card-title style="font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                {{ movie.title }}
+              </ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        }
+      </div>
+
+      <ion-button fill="clear" (click)="scrollRight()" style="position: absolute; right: 0; z-index: 10; --background: rgba(0,0,0,0.6); --border-radius: 50%; height: 50px; width: 50px;">
+        <ion-icon name="chevron-forward" slot="icon-only" color="light"></ion-icon>
+      </ion-button>
+
+    </div>
+  }
+
+  @if (searchTerm !== '') {
+    <ion-grid>
+      <ion-row>
+        @for (movie of movies; track movie.id) {
+          <ion-col size="6" size-sm="4" size-md="3" size-lg="2" size-xl="2">
+            <ion-card [routerLink]="['/movie-details', movie.id]" style="margin: 0; height: 100%; display: flex; flex-direction: column; cursor: pointer;">
+              @if (movie.poster_path) {
+                <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" style="flex-grow: 1; object-fit: cover;" />
+              }
+              <ion-card-header style="padding: 10px;">
+                <ion-card-title style="font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  {{ movie.title }}
+                </ion-card-title>
+              </ion-card-header>
+            </ion-card>
+          </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+  }
 </ion-content>

@@ -9,6 +9,14 @@
       <ion-icon name="heart" color="danger" style="vertical-align: text-bottom; margin-right: 5px;"></ion-icon>
       My Favourites
     </ion-title>
+    <ion-buttons slot="end">
+      @if (favouriteMovies.length > 0) {
+        <ion-button color="danger" (click)="clearAll()">
+          <ion-icon slot="start" name="trash-outline"></ion-icon>
+          Clear All
+        </ion-button>
+      }
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -21,20 +29,25 @@
     </div>
   }
 
-  @for (movie of favouriteMovies; track movie.id) {
-    <ion-card [routerLink]="['/movie-details', movie.id]">
-      @if (movie.poster_path) {
-        <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" />
+  <ion-grid>
+    <ion-row>
+      @for (movie of favouriteMovies; track movie.id) {
+        <ion-col size="6" size-sm="4" size-md="3" size-lg="2" size-xl="2">
+          <ion-card style="margin: 0; height: 100%; display: flex; flex-direction: column;">
+            @if (movie.poster_path) {
+              <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" [routerLink]="['/movie-details', movie.id]" style="cursor: pointer; flex-grow: 1; object-fit: cover;" />
+            }
+            <ion-card-header style="padding: 10px;">
+              <ion-card-title style="font-size: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                <span [routerLink]="['/movie-details', movie.id]" style="cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                  {{ movie.title }}
+                </span>
+                <ion-icon name="heart" color="danger" style="cursor: pointer; flex-shrink: 0; margin-left: 5px;" (click)="removeFromFavourites(movie.id)"></ion-icon>
+              </ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ion-col>
       }
-      <ion-card-header>
-        <ion-card-title>
-          {{ movie.title }}
-          <ion-icon name="heart" color="danger" style="float: right;"></ion-icon>
-        </ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        {{ movie.overview | slice:0:150 }}...
-      </ion-card-content>
-    </ion-card>
-  }
+    </ion-row>
+  </ion-grid>
 </ion-content>

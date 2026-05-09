@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { 
   IonHeader, IonToolbar, IonButtons, IonButton, IonIcon, IonTitle, 
-  IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent 
+  IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent,
+  IonGrid, IonRow, IonCol // Added Grid components
 } from '@ionic/angular/standalone';
 
 import { addIcons } from 'ionicons';
-import { heart, heartOutline, home } from 'ionicons/icons';
+import { heart, heartOutline, home, trashOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-favourites',
@@ -17,25 +18,16 @@ import { heart, heartOutline, home } from 'ionicons/icons';
   imports: [
     CommonModule, 
     RouterModule,
-    IonHeader, 
-    IonToolbar, 
-    IonButtons, 
-    IonButton, 
-    IonIcon, 
-    IonTitle, 
-    IonContent, 
-    IonCard, 
-    IonCardHeader, 
-    IonCardTitle, 
-    IonCardContent
+    IonHeader, IonToolbar, IonButtons, IonButton, IonIcon, IonTitle, 
+    IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent,
+    IonGrid, IonRow, IonCol // Added Grid components
   ]
 })
 export class FavouritesPage {
   favouriteMovies: any[] = [];
 
   constructor() {
-  
-    addIcons({ heart, heartOutline, home });
+    addIcons({ heart, heartOutline, home, trashOutline });
   }
 
   ionViewWillEnter() {
@@ -44,5 +36,16 @@ export class FavouritesPage {
 
   loadFavourites() {
     this.favouriteMovies = JSON.parse(localStorage.getItem('favourites') || '[]');
+  }
+
+  
+  removeFromFavourites(movieId: number) {
+    this.favouriteMovies = this.favouriteMovies.filter((m: any) => m.id !== movieId);
+    localStorage.setItem('favourites', JSON.stringify(this.favouriteMovies));
+  }
+
+  clearAll() {
+    this.favouriteMovies = [];
+    localStorage.removeItem('favourites');
   }
 }
