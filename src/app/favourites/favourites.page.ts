@@ -8,7 +8,7 @@ import {
 } from '@ionic/angular/standalone';
 
 import { addIcons } from 'ionicons';
-import { heart, heartOutline, home, trashOutline } from 'ionicons/icons';
+import { heart, heartOutline, home, homeOutline, list, listOutline, trashOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-favourites',
@@ -27,7 +27,7 @@ export class FavouritesPage {
   favouriteMovies: any[] = [];
 
   constructor() {
-    addIcons({ heart, heartOutline, home, trashOutline });
+    addIcons({ heart, heartOutline, home, trashOutline, list, listOutline, homeOutline});
   }
 
   ionViewWillEnter() {

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { heart, chevronBack, chevronForward } from 'ionicons/icons';
+import { heart, chevronBack, chevronForward, list, listOutline, homeOutline, heartOutline } from 'ionicons/icons';
 import { MovieService } from '../service/movie';
 
 @Component({
@@ -27,7 +27,7 @@ export class HomePage implements OnInit {
   @ViewChild('slider', { read: ElementRef }) slider!: ElementRef; 
 
   constructor(private movieService: MovieService) {
-    addIcons({ heart, chevronBack, chevronForward }); 
+    addIcons({ heart, chevronBack, chevronForward, list, listOutline, homeOutline, heartOutline }); 
   }
 
   ngOnInit() {

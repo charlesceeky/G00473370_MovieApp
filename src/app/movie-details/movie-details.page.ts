@@ -4,7 +4,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { MovieService } from '../service/movie';
 import { addIcons } from 'ionicons';
-import { heart, heartOutline, star, list, listOutline, home } from 'ionicons/icons';
+import { heart, heartOutline, star, list, listOutline, home, homeOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-movie-details',
@@ -18,7 +18,7 @@ export class MovieDetailsPage implements OnInit {
   cast: any[] = [];
   crew: any[] = [];
   
-  isFavourite: boolean = false;
+  isFavourite: boolean = false; 
   isInList: boolean = false; // NEW: Track list status
 
   castLimit: number = 5;
@@ -29,7 +29,7 @@ export class MovieDetailsPage implements OnInit {
     private movieService: MovieService
   ) {
 
-    addIcons({ heart, heartOutline, star, list, listOutline, home }); 
+    addIcons({ heart, heartOutline, star, list, listOutline, home, homeOutline}); 
   }
 
   ngOnInit() {

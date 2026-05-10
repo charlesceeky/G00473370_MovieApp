@@ -2,14 +2,14 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button routerLink="/home"><ion-icon slot="icon-only" name="home-outline" color="medium"></ion-icon></ion-button>
-      <ion-button routerLink="/lists"><ion-icon slot="icon-only" name="list-outline" color="medium"></ion-icon></ion-button>
-      <ion-button routerLink="/favourites"><ion-icon slot="icon-only" name="heart" color="danger"></ion-icon></ion-button>
+      <ion-button routerLink="/lists"><ion-icon slot="icon-only" name="list" color="primary"></ion-icon></ion-button>
+      <ion-button routerLink="/favourites"><ion-icon slot="icon-only" name="heart-outline" color="medium"></ion-icon></ion-button>
     </ion-buttons>
     
-    <ion-title style="font-weight: bold;">My Favourites</ion-title>
+    <ion-title style="font-weight: bold;">My Watchlist</ion-title>
     
     <ion-buttons slot="end">
-      @if (favouriteMovies.length > 0) {
+      @if (listMovies.length > 0) {
         <ion-button color="danger" (click)="clearAll()">
           <ion-icon slot="start" name="trash-outline"></ion-icon>
           Clear All
@@ -20,30 +20,33 @@
 </ion-header>
 
 <ion-content>
-  @if (favouriteMovies.length === 0) {
+  @if (listMovies.length === 0) {
     <div style="text-align: center; padding-top: 50px;">
-      <ion-icon name="heart-outline" style="font-size: 64px; color: #ccc;"></ion-icon>
-      <p>You haven't saved any movies yet!</p>
+      <ion-icon name="list-outline" style="font-size: 64px; color: #ccc;"></ion-icon>
+      <p>Your watchlist is empty!</p>
       <ion-button fill="clear" routerLink="/home">Browse Movies</ion-button>
     </div>
   }
 
   <ion-grid>
     <ion-row>
-      @for (movie of favouriteMovies; track movie.id) {
+      @for (movie of listMovies; track movie.id) {
         <ion-col size="6" size-sm="4" size-md="3" size-lg="2" size-xl="2">
           <ion-card style="margin: 0; height: 100%; display: flex; flex-direction: column;">
+            
             @if (movie.poster_path) {
               <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" [routerLink]="['/movie-details', movie.id]" style="cursor: pointer; flex-grow: 1; object-fit: cover;" />
             }
-            <ion-card-header style="padding: 10px;">
-              <ion-card-title style="font-size: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            
+            <ion-card-header style="padding: 10px; flex-shrink: 0; min-height: 44px; display: flex; align-items: center;">
+              <ion-card-title style="font-size: 1rem; width: 100%; display: flex; justify-content: space-between; align-items: center; margin: 0;">
                 <span [routerLink]="['/movie-details', movie.id]" style="cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                   {{ movie.title }}
                 </span>
-                <ion-icon name="heart" color="danger" style="cursor: pointer; flex-shrink: 0; margin-left: 5px;" (click)="removeFromFavourites(movie.id)"></ion-icon>
+                <ion-icon name="list" color="primary" style="cursor: pointer; flex-shrink: 0; margin-left: 5px;" (click)="removeFromList(movie.id)"></ion-icon>
               </ion-card-title>
             </ion-card-header>
+
           </ion-card>
         </ion-col>
       }

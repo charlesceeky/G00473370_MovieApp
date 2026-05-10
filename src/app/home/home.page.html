@@ -1,11 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ studentNumber }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button routerLink="/favourites">
-        <ion-icon slot="icon-only" name="heart" color="danger"></ion-icon>
-      </ion-button>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home"><ion-icon slot="icon-only" name="home" color="primary"></ion-icon></ion-button>
+      <ion-button routerLink="/lists"><ion-icon slot="icon-only" name="list-outline" color="medium"></ion-icon></ion-button>
+      <ion-button routerLink="/favourites"><ion-icon slot="icon-only" name="heart-outline" color="medium"></ion-icon></ion-button>
     </ion-buttons>
+    
+    <ion-title style="font-weight: bold;">{{ studentNumber }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
