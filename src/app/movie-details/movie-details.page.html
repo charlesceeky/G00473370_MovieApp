@@ -23,65 +23,95 @@
          alt="{{ movie.title }} poster" />
   </div>
 
-  <div style="padding: 16px; text-align: center;">
-    <ion-button 
-      shape="round" 
-      [fill]="isFavourite ? 'solid' : 'outline'" 
-      [color]="isFavourite ? 'danger' : 'dark'" 
+  <div style="padding: 15px 16px 5px; text-align: center;">
+    
+    <div style="display: flex; justify-content: center; align-items: center; gap: 15px; color: gray; font-size: 0.95rem; margin-bottom: 12px;">
+      <span>{{ movie.release_date | date:'yyyy' }}</span>
+      <span>•</span>
+      <span>{{ movie.runtime }} min</span>
+      <span>•</span>
+      <span style="display: flex; align-items: center; gap: 4px;">
+        <ion-icon name="star" color="warning"></ion-icon> 
+        {{ movie.vote_average | number:'1.1-1' }}
+      </span>
+    </div>
+
+    <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px;">
+      <ion-badge *ngFor="let genre of movie.genres" color="light" style="font-weight: normal; padding: 6px 10px;">
+        {{ genre.name }}
+      </ion-badge>
+    </div>
+
+  </div>
+  <div style="display: flex; justify-content: center; gap: 30px; padding: 15px 0 5px;">
+    
+    <ion-icon 
+      [name]="isFavourite ? 'heart' : 'heart-outline'" 
+      [color]="isFavourite ? 'danger' : 'medium'"
+      style="font-size: 32px; cursor: pointer;"
       (click)="toggleFavourite()">
-      <ion-icon slot="start" [name]="isFavourite ? 'heart' : 'heart-outline'"></ion-icon>
-      {{ isFavourite ? 'Remove From Favourites' : 'Add To Favourites' }}
-    </ion-button>
-    <p style="text-align: left;">{{ movie.overview }}</p>
+    </ion-icon>
+
+    <ion-icon 
+      [name]="isInList ? 'list' : 'list-outline'" 
+      [color]="isInList ? 'primary' : 'medium'"
+      style="font-size: 32px; cursor: pointer;"
+      (click)="toggleList()">
+    </ion-icon>
+
+  </div>
+
+  <div style="padding: 0 16px 16px; text-align: center;">
+    <p style="text-align: left; margin-top: 0;">{{ movie.overview }}</p>
   </div>
 
   <ion-accordion-group expand="inset">
   
-  <ion-accordion value="cast">
-    <ion-item slot="header" color="light">
-      <ion-label>Cast ({{ cast.length }})</ion-label>
-    </ion-item>
-    <div class="ion-padding" slot="content">
-      <ion-list>
-        <ion-item *ngFor="let actor of cast | slice:0:castLimit" [routerLink]="['/details', actor.id]">
-          <ion-avatar slot="start">
-            <img *ngIf="actor.profile_path" [src]="'https://image.tmdb.org/t/p/w200' + actor.profile_path" />
-          </ion-avatar>
-          <ion-label>
-            <h2>{{ actor.name }}</h2>
-            <p>{{ actor.character }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-      
-      <ion-button *ngIf="cast.length > 5" expand="block" fill="clear" (click)="toggleCastLimit()">
-        {{ castLimit === 5 ? 'Show More' : 'Show Less' }}
-      </ion-button>
-    </div>
-  </ion-accordion>
+    <ion-accordion value="cast">
+      <ion-item slot="header" color="light">
+        <ion-label>Cast ({{ cast.length }})</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-list>
+          <ion-item *ngFor="let actor of cast | slice:0:castLimit" [routerLink]="['/details', actor.id]">
+            <ion-avatar slot="start">
+              <img *ngIf="actor.profile_path" [src]="'https://image.tmdb.org/t/p/w200' + actor.profile_path" />
+            </ion-avatar>
+            <ion-label>
+              <h2>{{ actor.name }}</h2>
+              <p>{{ actor.character }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        
+        <ion-button *ngIf="cast.length > 5" expand="block" fill="clear" (click)="toggleCastLimit()">
+          {{ castLimit === 5 ? 'Show More' : 'Show Less' }}
+        </ion-button>
+      </div>
+    </ion-accordion>
 
-  <ion-accordion value="crew">
-    <ion-item slot="header" color="light">
-      <ion-label>Crew ({{ crew.length }})</ion-label>
-    </ion-item>
-    <div class="ion-padding" slot="content">
-      <ion-list>
-        <ion-item *ngFor="let member of crew | slice:0:crewLimit" [routerLink]="['/details', member.id]">
-          <ion-avatar slot="start">
-            <img *ngIf="member.profile_path" [src]="'https://image.tmdb.org/t/p/w200' + member.profile_path" />
-          </ion-avatar>
-          <ion-label>
-            <h2>{{ member.name }}</h2>
-            <p>{{ member.job }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
+    <ion-accordion value="crew">
+      <ion-item slot="header" color="light">
+        <ion-label>Crew ({{ crew.length }})</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-list>
+          <ion-item *ngFor="let member of crew | slice:0:crewLimit" [routerLink]="['/details', member.id]">
+            <ion-avatar slot="start">
+              <img *ngIf="member.profile_path" [src]="'https://image.tmdb.org/t/p/w200' + member.profile_path" />
+            </ion-avatar>
+            <ion-label>
+              <h2>{{ member.name }}</h2>
+              <p>{{ member.job }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
 
-      <ion-button *ngIf="crew.length > 5" expand="block" fill="clear" (click)="toggleCrewLimit()">
-        {{ crewLimit === 5 ? 'Show More' : 'Show Less' }}
-      </ion-button>
-    </div>
-  </ion-accordion>
+        <ion-button *ngIf="crew.length > 5" expand="block" fill="clear" (click)="toggleCrewLimit()">
+          {{ crewLimit === 5 ? 'Show More' : 'Show Less' }}
+        </ion-button>
+      </div>
+    </ion-accordion>
 
-</ion-accordion-group>
+  </ion-accordion-group>
 </ion-content>
